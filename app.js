@@ -2,7 +2,7 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
-const request = require('request')
+// const request = require('request')
 const https = require('https')
 const port = process.env.PORT || 3000
 
@@ -46,10 +46,16 @@ app.post('/',(req,res)=>{
     const url = "https://us4.api.mailchimp.com/3.0/lists/3f5533cdcd"
     const options = {
         method: "POST",
-        auth:"kennie1:468bfcb3e94d38d459b9f7ea5f0db5a0-us4"
+        auth:"kennie1:79ef314dbc6355784fe51975ccdd13fd-us4"
     }
 
     const request = https.request(url, options, (response)=>{
+
+        if(response.statusCode === 200){
+            res.sendFile(`${__dirname}/success.html`)
+        }else{
+            res.sendFile(`${__dirname}/failure.html`)
+        }
         response.on("data",(data)=>{
             console.log(JSON.parse(data))
         })
@@ -62,6 +68,10 @@ app.post('/',(req,res)=>{
     
 });
 
+app.post('/failure',(req,res)=>{
+    res.redirect("/")
+})
+
 //{"name":"Freddie'\''s Favorite Hats","contact":{"company":"Mailchimp","address1":"675 Ponce De Leon Ave NE","address2":"Suite 5000","city":"Atlanta","state":"GA","zip":"30308","country":"US","phone":""},"permission_reminder":"You'\''re receiving this email because you signed up for updates about Freddie'\''s newest hats.","campaign_defaults":{"from_name":"Freddie","from_email":"freddie@freddiehats.com","subject":"","language":"en"},"email_type_option":true}
 
 
@@ -72,6 +82,7 @@ app.listen(port, ()=>{
 
 
 //API KEY
+//79ef314dbc6355784fe51975ccdd13fd-us4
 //468bfcb3e94d38d459b9f7ea5f0db5a0-us4
 
 //List ID
