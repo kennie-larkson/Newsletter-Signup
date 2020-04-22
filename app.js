@@ -5,8 +5,9 @@ const bodyParser = require('body-parser')
 // const request = require('request')
 const https = require('https')
 const port = process.env.PORT || 3000
+const mailchimp_api_key = process.env.MAILCHIMP_API_KEY 
 
-
+// console.log(mailchimp_api_key)
 
 
 const app = express()
@@ -46,7 +47,8 @@ app.post('/',(req,res)=>{
     const url = "https://us4.api.mailchimp.com/3.0/lists/3f5533cdcd"
     const options = {
         method: "POST",
-        auth:"kennie1:79ef314dbc6355784fe51975ccdd13fd-us4"
+        // auth:"kennie1:"+mailchimp_api_key
+        auth:`kennie1:${mailchimp_api_key}`
     }
 
     const request = https.request(url, options, (response)=>{
@@ -81,9 +83,3 @@ app.listen(port, ()=>{
 })
 
 
-//API KEY
-//79ef314dbc6355784fe51975ccdd13fd-us4
-//468bfcb3e94d38d459b9f7ea5f0db5a0-us4
-
-//List ID
-//3f5533cdcd
